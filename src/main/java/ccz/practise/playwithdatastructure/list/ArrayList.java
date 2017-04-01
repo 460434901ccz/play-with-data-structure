@@ -5,12 +5,12 @@ package ccz.practise.playwithdatastructure.list;
  */
 public class ArrayList<T> implements List<T> {
 
-    private final Integer DEFAULT_INIT_SIZE = 10;
+    private static final Integer DEFAULT_INIT_SIZE = 10;
     private Object[] nodes;
     private int size;
 
     public ArrayList() {
-        nodes = new Object[DEFAULT_INIT_SIZE];
+        this(DEFAULT_INIT_SIZE);
     }
 
     public ArrayList(int initSize) {
