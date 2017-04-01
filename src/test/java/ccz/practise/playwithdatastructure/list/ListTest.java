@@ -71,14 +71,10 @@ public class ListTest {
      */
     @Test
     public void testInsert() throws Exception {
-        list.insert(0, 0);
-        assertEquals(0, list.get(0));
-
-        list.clear();
-
         list.add(0);
-        list.insert(1, 1);
-        assertEquals(1, list.get(1));
+        list.insert(1, 0);
+        assertEquals(1, list.get(0));
+        assertEquals(0, list.get(1));
 
         list.clear();
 
