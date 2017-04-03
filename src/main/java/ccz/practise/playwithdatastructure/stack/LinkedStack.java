@@ -8,11 +8,10 @@ import java.util.EmptyStackException;
  * Created by visionsky on 2017/4/1.
  */
 public class LinkedStack<T> implements Stack<T> {
-    private TopNode topNode;
-    private int size;
+    private LinkedList<T> linkedList;
 
     public LinkedStack() {
-        topNode = new TopNode(null, null);
+        linkedList = new LinkedList();
     }
 
     @Override
@@ -22,41 +21,29 @@ public class LinkedStack<T> implements Stack<T> {
 
     @Override
     public T pop() {
-        if(isEmpty()) throw new EmptyStackException();
-        final T data = topNode.next.data;
-        size--;
-        return data;
+        T t = getTop();
+        linkedList.remove(size()-1);
+        return t;
     }
 
     @Override
     public void push(T t) {
-        topNode.next = new TopNode(t, topNode.next);
-        size++;
+        linkedList.add(t);
     }
 
     @Override
     public T getTop() {
-        if(isEmpty()) throw new EmptyStackException();
-        return topNode.next.data;
+        return linkedList.get(size()-1);
     }
 
     @Override
     public void clear() {
-        size = 0;
+        linkedList = new LinkedList();
     }
 
     @Override
     public int size() {
-        return size;
+        return linkedList.size();
     }
 
-    private class TopNode {
-        private T data;
-        private TopNode next;
-
-        private TopNode(T data, TopNode next) {
-            this.data = data;
-            this.next = next;
-        }
-    }
 }

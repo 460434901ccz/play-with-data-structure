@@ -1,5 +1,7 @@
 package ccz.practise.playwithdatastructure.stack;
 
+import ccz.practise.playwithdatastructure.list.ArrayList;
+
 import java.util.EmptyStackException;
 
 /**
@@ -8,15 +10,14 @@ import java.util.EmptyStackException;
 public class ArrayStack<T> implements Stack<T> {
     private static final Integer DEFAULT_INIT_SIZE = 10;
 
-    private Object[] nodes = null;
-    private int size;
+    private ArrayList<T> arryList;
 
     public ArrayStack() {
         this(DEFAULT_INIT_SIZE);
     }
 
     public ArrayStack(int initSize) {
-        nodes = new Object[initSize];
+        arryList = new ArrayList<T>(DEFAULT_INIT_SIZE);
     }
 
     @Override
@@ -26,39 +27,30 @@ public class ArrayStack<T> implements Stack<T> {
 
     @Override
     public T pop() {
-        if(isEmpty()) throw new EmptyStackException();
-        T t = (T)nodes[size-1];
-        size--;
+        T t = getTop();
+        arryList.remove(size()-1);
         return t;
     }
 
     @Override
     public void push(T t) {
-        increase();
-        nodes[size++] = t;
+        arryList.add(t);
     }
 
     @Override
     public T getTop() {
         if(isEmpty()) throw new EmptyStackException();
-        return (T)nodes[size-1];
+        return arryList.get(size()-1);
     }
 
     @Override
     public void clear() {
-        size = 0;
+        arryList = new ArrayList<T>(arryList.size());
     }
 
     @Override
     public int size() {
-        return size;
+        return arryList.size();
     }
 
-    private void increase() {
-        if(size() == nodes.length) {
-            Object[] newNodes = new Object[nodes.length * 2];
-            System.arraycopy(nodes, 0, newNodes, 0, nodes.length);
-            nodes = newNodes;
-        }
-    }
 }
