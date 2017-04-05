@@ -7,6 +7,7 @@ import ccz.practise.playwithdatastructure.stack.Stack;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -29,11 +30,31 @@ public class PostfixExpression {
     public static void main(String[] args) {
         String infixExpression = "((10+2)*2+2+3+4)*4+(2+3)+2+1*2*3+2*2"; //
 
-        Queue<String> postfixExpressionQueue = infix2PostfixExpression(infixExpression);
+        String result = calculate(infixExpression);
+        System.out.println(result);
+    }
 
+    public static String calculate(String infixExpression) {
+        return calculate(infix2PostfixExpression(infixExpression));
+    }
+
+    public static String calculate(Queue<String> postfixExpressionQueue) {
+        Stack<BigDecimal> stack = new ArrayStack<>();
         while(postfixExpressionQueue.size()>0) {
-            System.out.print(postfixExpressionQueue.deQueue());
+            final String s = postfixExpressionQueue.deQueue();
+            if(NumberUtils.isCreatable(s)) stack.push(new BigDecimal(s));
+            else {
+                if(StringUtils.equals(s, "+"))
+                    stack.push(stack.pop().add(stack.pop()));
+                else if(StringUtils.equals(s, "-"))
+                    stack.push(stack.pop().subtract(stack.pop()));
+                else if(StringUtils.equals(s, "*"))
+                    stack.push(stack.pop().multiply(stack.pop()));
+                else if(StringUtils.equals(s, "/"))
+                    stack.push(stack.pop().divide(stack.pop()));
+            }
         }
+        return stack.pop().toPlainString();
     }
 
     public static Queue<String> infix2PostfixExpression(String infixExpression) {

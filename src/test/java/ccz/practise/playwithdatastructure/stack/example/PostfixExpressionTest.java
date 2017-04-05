@@ -18,4 +18,10 @@ public class PostfixExpressionTest {
         }
         Assert.assertEquals("102+2*2+3+4+4*23++2+12*3*+22*+", actual);
     }
+
+    @Test
+    public void testPostfixExpression() {
+        String infixExpression = "((10+2)*2+2+3+4)*4+(2+3)+2+1*2*3+2*2";
+        Assert.assertEquals("149", PostfixExpression.calculate(PostfixExpression.calculate(infixExpression)));
+    }
 }
