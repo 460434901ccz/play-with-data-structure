@@ -5,18 +5,18 @@ package ccz.practise.playwithdatastructure.search;
  */
 public class BinarySearch {
     public static int binarySearch(int[] array, int key) {
-        int lowIndex=0, highIndex=array.length-1, mid=(highIndex+lowIndex)/2;
+        int lowIndex=0, highIndex=array.length-1;
 
-        while(array[mid]!=key && lowIndex<highIndex) {
-            if(array[mid]<key) {
-                lowIndex = mid+1;
-                mid=(highIndex+lowIndex)/2;
-            } else {
+        while(lowIndex <= highIndex) {
+            int mid = (highIndex+lowIndex)/2;
+            if(array[mid] < key) {
+                lowIndex = mid + 1;
+            } else if(array[mid] > key){
                 highIndex = mid-1;
-                mid=(highIndex+lowIndex)/2;
+            } else {
+                return mid;
             }
         }
-        if(array[mid]!=key) return -1;
-        else return mid;
+        return -1;
     }
 }
