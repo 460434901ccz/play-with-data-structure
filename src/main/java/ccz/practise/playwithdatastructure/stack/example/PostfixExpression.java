@@ -12,7 +12,7 @@ import java.util.*;
 /**
  * Created by 46043 on 2017/4/4.
  */
-public class Infix2PostfixExpression {
+public class PostfixExpression {
 
     private static Map<String, Integer> symbolLevelMap = new HashMap<>();
 
