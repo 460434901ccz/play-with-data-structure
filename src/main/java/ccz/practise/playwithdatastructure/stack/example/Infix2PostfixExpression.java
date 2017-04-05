@@ -16,42 +16,41 @@ import java.util.Set;
  */
 public class Infix2PostfixExpression {
     public static void main(String[] args) {
-        String infixExpression = "((10+2)*2+4)*4+2+1*2"; //
+        String infixExpression = "((10+2)*2+2+3+4)*4+(2+3)+2+1*2*3+2*2"; //
         Queue<String> infixExpressionQueue = getInfixExpressionQueue(infixExpression);
-
-        Stack<String> postfixExpressionStack = new ArrayStack<>();
+        Queue<String> postfixExpressionQueue = new ArrayQueue<>();
         Stack<String> stack = new ArrayStack<>();
 
         while(infixExpressionQueue.size()>0) {
             String s = infixExpressionQueue.deQueue();
             String top = null;
             if(stack.size()>0) top = stack.getTop();
-//FIXME 整个思路得改，有问题
-            //s是数字
-            if(NumberUtils.isCreatable(String.valueOf(s))) postfixExpressionStack.push(s);
+
+            if(NumberUtils.isCreatable(String.valueOf(s))) postfixExpressionQueue.enQueue(s);
             else if(StringUtils.equals(s, "(")) stack.push(s);
             else if(StringUtils.equals(s, ")")) {
                 String pop = null;
-                while(!StringUtils.equals(pop = stack.pop(),"(")) postfixExpressionStack.push(pop);
+                while(!StringUtils.equals(pop = stack.pop(),"(")) postfixExpressionQueue.enQueue(pop);
             }
-            else if((top==null || StringUtils.equals(top, "(") || StringUtils.equals(top, "+") || StringUtils.equals(top, "-"))
-                    && (StringUtils.equals(s, "+") || StringUtils.equals(s, "-"))) stack.push(s);
-            else if((StringUtils.equals(top, "*") || StringUtils.equals(top, "/"))
-                    && (StringUtils.equals(s, "+") || StringUtils.equals(s, "-"))) {
-                while(stack.size()>0 && !StringUtils.equals(stack.getTop(),"(")) postfixExpressionStack.push(stack.pop());
+            else if(top==null || StringUtils.equals(top, "(")) stack.push(s);
+            else if((StringUtils.equals(s, "*") || StringUtils.equals(s, "/"))
+                    && (StringUtils.equals(top, "+") || StringUtils.equals(top, "-"))) {
                 stack.push(s);
             }
-            else if((top==null || StringUtils.equals(top, "("))
-                    && (StringUtils.equals(s, "*")||StringUtils.equals(s, "/"))) stack.push(s);
-            else if((top==null || StringUtils.equals(top, "(") || StringUtils.equals(top, "+") || StringUtils.equals(top, "-"))
-                    && (StringUtils.equals(s, "*")||StringUtils.equals(s, "/"))) postfixExpressionStack.push(s);
+            else if((StringUtils.equals(s, "*") || StringUtils.equals(s, "/"))
+                    && (StringUtils.equals(top, "*") || StringUtils.equals(top, "/"))) {
+                while(stack.size()>0 && !StringUtils.equals(stack.getTop(), "(") && !StringUtils.equals(stack.getTop(), "+")&& !StringUtils.equals(stack.getTop(), "-")) postfixExpressionQueue.enQueue(stack.pop());
+                stack.push(s);
+            } else {
+                while(stack.size()>0 && !StringUtils.equals(stack.getTop(), "(")) postfixExpressionQueue.enQueue(stack.pop());
+                stack.push(s);
+            }
         }
-        while(stack.size()>0) postfixExpressionStack.push(stack.pop());
+        while(stack.size()>0) postfixExpressionQueue.enQueue(stack.pop());
 
-        while(postfixExpressionStack.size()>0) {
-            System.out.println(postfixExpressionStack.pop());
+        while(postfixExpressionQueue.size()>0) {
+            System.out.print(postfixExpressionQueue.deQueue());
         }
-
     }
 
     private static Queue<String> getInfixExpressionQueue(String infixExpression) {
@@ -69,6 +68,7 @@ public class Infix2PostfixExpression {
                 numberStr += str;
             }
         }
+        if(numberStr.length()>0) queue.enQueue(numberStr);
 
         return queue;
     }
