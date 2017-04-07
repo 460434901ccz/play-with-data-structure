@@ -3,7 +3,7 @@ package ccz.practise.playwithdatastructure.sort;
 /**
  * Created by visionsky on 2017/4/7.
  */
-public class BubbleSort {
+public abstract class Sort {
 
     public static void bubbleSort(int[] array) {
         for(int i=1; i<=array.length; i++) {
@@ -15,7 +15,17 @@ public class BubbleSort {
         }
     }
 
-    private static void swap(int[] array, int i, int j) {
+    public static void simpleSelectionSort(int[] array) {
+        for(int i=0; i<array.length-1; i++) {
+            int min = i;
+            for(int j=i+1; j<array.length; j++) {
+                if(array[min]>array[j]) min = j;
+            }
+            if(min!=i) swap(array, i, min);
+        }
+    }
+
+    protected static void swap(int[] array, int i, int j) {
         int temp = array[i];
         array[i] = array[j];
         array[j] = temp;
