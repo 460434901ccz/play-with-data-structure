@@ -25,7 +25,19 @@ public abstract class Sort {
         }
     }
 
-    protected static void swap(int[] array, int i, int j) {
+    public static void straightInsertionSort(int[] array) {
+        for(int i=1; i<array.length; i++) {
+            int temp = array[i];
+            int j=i;
+            while(j>0 && temp<array[j-1]) {
+                array[j] = array[j-1];
+                j--;
+            }
+            array[j] = temp;
+        }
+    }
+
+    private static void swap(int[] array, int i, int j) {
         int temp = array[i];
         array[i] = array[j];
         array[j] = temp;
