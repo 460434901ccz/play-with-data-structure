@@ -37,6 +37,25 @@ public abstract class Sort {
         }
     }
 
+    public static void shellSort(int[] array) {
+        int increament = array.length;
+        do {
+            increament = increament / 3 + 1;
+            for(int i=increament; i<array.length; i++) {
+                if(array[i] < array[i-increament]) {
+                    int temp = array[i];
+                    int j=i-increament;
+                    while(j>=0 && temp<array[j]) {
+                        array[j+increament] = array[j];
+                        j-=increament;
+                    }
+                    array[j+increament] = temp;
+                }
+            }
+
+        }while(increament > 1);
+    }
+
     private static void swap(int[] array, int i, int j) {
         int temp = array[i];
         array[i] = array[j];
