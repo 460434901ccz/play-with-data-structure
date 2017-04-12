@@ -56,6 +56,49 @@ public abstract class Sort {
         }while(increament > 1);
     }
 
+    public static void mergeSort(int[] array) {
+        final int[] mergeArray =  merge(array);
+        for(int i=0; i<array.length; i++) {
+            array[i] = mergeArray[i];
+        }
+    }
+
+    private static int[] merge(int[] array) {
+        if(array.length==1) return array;
+
+        int[] array1 = new int[array.length/2];
+        int[] array2 = new int[array.length - array1.length];
+
+        for(int i=0; i<array1.length; i++) {
+            array1[i] = array[i];
+        }
+        for(int i=0; i<array2.length; i++) {
+            array2[i] = array[i+array1.length];
+        }
+
+        array1 = merge(array1);
+        array2 = merge(array2);
+
+
+        int[] mergeArray = new int[array1.length+array2.length];
+        int i=0, j=0, k=0;
+        while(i<array1.length && j<array2.length) {
+            if(array1[i]<array2[j]) {
+                mergeArray[k++] = array1[i++];
+            } else {
+                mergeArray[k++] = array2[j++];
+            }
+        }
+        while(i<array1.length) {
+            mergeArray[k++] = array1[i++];
+        }
+        while(j<array2.length) {
+            mergeArray[k++] = array2[j++];
+        }
+
+        return mergeArray;
+    }
+
     private static void swap(int[] array, int i, int j) {
         int temp = array[i];
         array[i] = array[j];
